@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { ANDROID_KEYWORD, IOS_KEYWORD } from './constants'
+import { ANDROID_KEYWORD, DOMAIN, IOS_KEYWORD } from './constants'
 import { nanoid } from 'nanoid'
 
 const app = new Hono<{ Bindings: { DB: D1Database } }>()
@@ -39,7 +39,10 @@ app.get('/admin', async (c) => {
 
   const listHtml2 = allShortenUrls.map((url) => `
     <tr class="border-b hover:bg-gray-100">
-      <td class="px-4 py-2">${url.id}</td>
+      <td class="px-4 py-2">
+        <span id="url-${url.id}" class="copy-url" data-url="https://${DOMAIN}/s/${url.id}">${url.id}</span>
+        <button onclick="navigator.clipboard.writeText('https://${DOMAIN}/s/${url.id}')" class="copy-btn">📋</button>
+      </td>
       <td class="px-4 py-2 max-w-xs truncate overflow-hidden">${url.original_url}</td>
       <td class="px-4 py-2">
         <form method="POST" action="/admin/shorten/delete/${url.id}" onsubmit="return confirm('May I delete this?')">
