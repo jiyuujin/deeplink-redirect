@@ -1,11 +1,25 @@
 import { Hono } from 'hono'
-import { ANDROID_KEYWORD, IOS_KEYWORD } from './constants'
+import { ANDROID_KEYWORD, DOMAIN, IOS_KEYWORD } from './constants'
 import { nanoid } from 'nanoid'
 
 const app = new Hono<{ Bindings: { DB: D1Database } }>()
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
+})
+
+app.post('/shorten', async (c) => {
+  const { url } = await c.req.json()
+  const id = nanoid(6)
+
+  await c.env.DB.prepare(
+    'INSERT INTO shorten_urls (id, original_url) VALUES (?, ?)',
+  )
+    .bind(id, url)
+    .run()
+
+  const shortUrl = `https://${DOMAIN}/s/${id}`
+  return c.json({ shortUrl })
 })
 
 app.get('/admin', async (c) => {
