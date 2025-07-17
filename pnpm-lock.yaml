@@ -11,6 +11,9 @@ importers:
       hono:
         specifier: 4.8.5
         version: 4.8.5
+      nanoid:
+        specifier: 5.1.5
+        version: 5.1.5
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20250715.0
@@ -436,6 +439,11 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
+  nanoid@5.1.5:
+    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
 
@@ -819,6 +827,8 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+
+  nanoid@5.1.5: {}
 
   ohash@2.0.11: {}
 
