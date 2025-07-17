@@ -1,0 +1,16 @@
+CREATE TABLE urls (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT UNIQUE NOT NULL,
+  ios_url TEXT,
+  android_url TEXT,
+  fallback_url TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE click_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT,
+  user_agent TEXT,
+  ip TEXT,
+  accessed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

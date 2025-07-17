@@ -1,0 +1,16 @@
+{
+  "name": "deeplink-redirect",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "hono": "4.8.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20250715.0",
+    "wrangler": "4.24.4"
+  }
+}

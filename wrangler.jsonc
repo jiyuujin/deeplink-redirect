@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "deeplink-redirect",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-07-17",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "deeplink-redirect-db",
+      "database_id": "0fc84b73-4388-4f3b-8ab6-8dee5a27b4a4"
+    }
+  ]
+}
