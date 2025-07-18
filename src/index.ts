@@ -175,6 +175,11 @@ app.post('/admin/shorten', async (c) => {
     .bind(id, body.url)
     .run()
 
+  if (body.redirect === 'true') {
+    const shortUrl = `https://${DOMAIN}/s/${id}`
+    return c.json({ shortUrl })
+  }
+
   return c.redirect('/admin')
 })
 
