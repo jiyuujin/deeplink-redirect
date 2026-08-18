@@ -2,7 +2,20 @@ import { Hono } from 'hono'
 import { ANDROID_KEYWORD, DOMAIN, IOS_KEYWORD } from './constants'
 import { nanoid } from 'nanoid'
 
-const app = new Hono<{ Bindings: { DB: D1Database } }>()
+const app = new Hono<{ Bindings: { DB: D1Database; SLACK_WEBHOOK_URL?: string } }>()
+
+async function notifySlack(webhookUrl: string | undefined, message: string) {
+  if (!webhookUrl) return
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: message }),
+    })
+  } catch (err) {
+    console.error('Failed to send Slack notification:', err)
+  }
+}
 
 app.get('/', (c) => {
   const teaserHtml = `
@@ -206,6 +219,9 @@ app.post('/admin/new', async (c) => {
     .bind(body.code, body.ios_url, body.android_url, body.fallback_url)
     .run()
 
+  const message = `🔗 *New URL Created*\n• *Code:* ${body.code}\n• *iOS:* ${body.ios_url}\n• *Android:* ${body.android_url}\n• *Fallback:* ${body.fallback_url}`
+  c.executionCtx.waitUntil(notifySlack(c.env.SLACK_WEBHOOK_URL, message))
+
   return c.redirect('/admin')
 })
 
@@ -218,6 +234,9 @@ app.post('/admin/shorten', async (c) => {
   )
     .bind(id, body.url)
     .run()
+
+  const message = `✂️ *New Shorten URL Created*\n• *ID:* ${id}\n• *URL:* https://${DOMAIN}/s/${id}\n• *Original:* ${body.url}`
+  c.executionCtx.waitUntil(notifySlack(c.env.SLACK_WEBHOOK_URL, message))
 
   return c.redirect('/admin')
 })
