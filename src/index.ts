@@ -4,6 +4,18 @@ import { nanoid } from 'nanoid'
 
 const app = new Hono<{ Bindings: { DB: D1Database; SLACK_WEBHOOK_URL?: string } }>()
 
+const GA_MEASUREMENT_ID = 'G-W6PN7R1712'
+
+const headAnalyticsTags = `
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_MEASUREMENT_ID}');
+  </script>
+`
+
 async function notifySlack(webhookUrl: string | undefined, message: string) {
   if (!webhookUrl) return
   try {
@@ -68,6 +80,7 @@ app.get('/', async (c) => {
       <meta charset="UTF-8" />
       <title>Urls</title>
       <script src="https://cdn.tailwindcss.com"></script>
+      ${headAnalyticsTags}
     </head>
     <body class="bg-gray-50 text-gray-800 p-8">
       <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
@@ -110,6 +123,7 @@ app.get('/admin/new', (c) => {
       <meta charset="UTF-8" />
       <title>Create URL</title>
       <script src="https://cdn.tailwindcss.com"></script>
+      ${headAnalyticsTags}
     </head>
     <body class="bg-gray-50 text-gray-800 p-8">
       <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
@@ -140,6 +154,7 @@ app.get('/admin/shorten', (c) => {
       <meta charset="UTF-8" />
       <title>Create Shorten URL</title>
       <script src="https://cdn.tailwindcss.com"></script>
+      ${headAnalyticsTags}
     </head>
     <body class="bg-gray-50 text-gray-800 p-8">
       <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
