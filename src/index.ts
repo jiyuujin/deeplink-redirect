@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid'
 const app = new Hono<{ Bindings: { DB: D1Database; SLACK_WEBHOOK_URL?: string } }>()
 
 const GA_MEASUREMENT_ID = 'G-W6PN7R1712'
+const ADSENSE_CLIENT_ID = 'ca-pub-7095980629133842'
 
 const headAnalyticsTags = `
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
@@ -14,6 +15,8 @@ const headAnalyticsTags = `
     gtag('js', new Date());
     gtag('config', '${GA_MEASUREMENT_ID}');
   </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}"
+     crossorigin="anonymous"></script>
 `
 
 async function notifySlack(webhookUrl: string | undefined, message: string) {
